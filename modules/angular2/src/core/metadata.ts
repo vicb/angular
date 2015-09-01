@@ -13,7 +13,6 @@ export {
   ComponentMetadata,
   DirectiveMetadata,
   PipeMetadata,
-  LifecycleEvent
 } from './metadata/directives';
 
 export {ViewMetadata, ViewEncapsulation} from './metadata/view';
@@ -29,7 +28,6 @@ import {
   ComponentMetadata,
   DirectiveMetadata,
   PipeMetadata,
-  LifecycleEvent
 } from './metadata/directives';
 
 import {ViewMetadata, ViewEncapsulation} from './metadata/view';
@@ -128,13 +126,11 @@ export interface ViewDecorator extends TypeDecorator {
 export interface DirectiveFactory {
   (obj: {
     selector?: string, properties?: string[], events?: string[], host?: StringMap<string, string>,
-        lifecycle?: LifecycleEvent[], bindings?: any[], exportAs?: string,
-        compileChildren?: boolean;
+        bindings?: any[], exportAs?: string, compileChildren?: boolean;
   }): DirectiveDecorator;
   new (obj: {
     selector?: string, properties?: string[], events?: string[], host?: StringMap<string, string>,
-        lifecycle?: LifecycleEvent[], bindings?: any[], exportAs?: string,
-        compileChildren?: boolean;
+        bindings?: any[], exportAs?: string, compileChildren?: boolean;
   }): DirectiveMetadata;
 }
 
@@ -187,7 +183,6 @@ export interface ComponentFactory {
     properties?: string[],
     events?: string[],
     host?: StringMap<string, string>,
-    lifecycle?: LifecycleEvent[],
     bindings?: any[],
     exportAs?: string,
     compileChildren?: boolean,
@@ -199,7 +194,6 @@ export interface ComponentFactory {
     properties?: string[],
     events?: string[],
     host?: StringMap<string, string>,
-    lifecycle?: LifecycleEvent[],
     bindings?: any[],
     exportAs?: string,
     compileChildren?: boolean,

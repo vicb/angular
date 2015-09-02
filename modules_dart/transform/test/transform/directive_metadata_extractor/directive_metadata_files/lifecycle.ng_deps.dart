@@ -12,7 +12,7 @@ void initReflector(reflector) {
     ..registerType(
         HelloCmp,
         new ReflectionInfo(const [
-          const Component(lifecycle: [
+          const Component(lifecycle: const [
             LifecycleEvent.OnChanges,
             LifecycleEvent.OnDestroy,
             LifecycleEvent.OnInit,

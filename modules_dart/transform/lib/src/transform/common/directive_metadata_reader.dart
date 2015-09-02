@@ -17,7 +17,8 @@ RenderDirectiveMetadata readDirectiveMetadata(AstNode node) {
     visitor = new _ReflectionInfoVisitor();
   } else {
     throw new ArgumentError('Incorrect value passed to readDirectiveMetadata. '
-        'Expected types are ClassDeclaration and InstanceCreationExpression');
+        'Expected types are ClassDeclaration and InstanceCreationExpression '
+        'Provided type was ${node.runtimeType}');
   }
   node.accept(visitor);
   return visitor.meta;
@@ -70,7 +71,7 @@ class _ReflectionInfoVisitor extends _DirectiveMetadataVisitor {
         // Process annotations to determine information specified via
         // `Component` and `Directive` parameters.
         reflectionInfoArgs[0].accept(this);
-        if (reflectionInfoArgs.length > 3) {
+        if (_hasMeta && reflectionInfoArgs.length > 3) {
           // Process interfaces to determine which lifecycle events we need to
           // react to for this `Directive`.
           _processInterfaces(reflectionInfoArgs[3]);

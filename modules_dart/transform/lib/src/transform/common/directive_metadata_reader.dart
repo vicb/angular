@@ -12,7 +12,7 @@ import 'package:angular2/src/core/change_detection/change_detection.dart';
 RenderDirectiveMetadata readDirectiveMetadata(AstNode node) {
   var visitor;
   if (node is ClassDeclaration) {
-    visitor = new _DirectiveMetadataVisitor();
+    visitor = new _DeclarationVisitor();
   } else if (node is InstanceCreationExpression) {
     visitor = new _ReflectionInfoVisitor();
   } else {
@@ -110,15 +110,14 @@ class _DeclarationVisitor extends _DirectiveMetadataVisitor {
   @override
   Object visitClassDeclaration(ClassDeclaration node) {
     node.metadata.accept(this);
-    if (!this._hasMeta) {
-      // No annotations recognized, just return null.
-      return null;
+    if (this._hasMeta) {
+      if (node.implementsClause != null &&
+          node.implementsClause.interfaces != null) {
+        _populateLifecycle(node.implementsClause.interfaces
+            .map((s) => s.toSource().split('.').last));
+      }
     }
-    if (node.implementsClause != null &&
-        node.implementsClause.interfaces != null) {
-      _populateLifecycle(node.implementsClause.interfaces
-          .map((s) => s.toSource().split('.').last));
-    }
+    return null;
   }
 }
 

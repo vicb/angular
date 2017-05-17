@@ -10,13 +10,14 @@ import {I18NHtmlParser} from '@angular/compiler/src/i18n/i18n_html_parser';
 import {TranslationBundle} from '@angular/compiler/src/i18n/translation_bundle';
 import {HtmlParser} from '@angular/compiler/src/ml_parser/html_parser';
 import {ParseTreeResult} from '@angular/compiler/src/ml_parser/parser';
+import {I18nVersion} from '@angular/core';
 
 export function main() {
   describe('I18N html parser', () => {
 
     it('should return the html nodes when no translations are given', () => {
       const htmlParser = new HtmlParser();
-      const i18nHtmlParser = new I18NHtmlParser(htmlParser);
+      const i18nHtmlParser = new I18NHtmlParser(htmlParser, I18nVersion.V0);
       const ptResult = new ParseTreeResult([], []);
 
       spyOn(htmlParser, 'parse').and.returnValue(ptResult);
@@ -34,7 +35,7 @@ export function main() {
       const transBundle = new TranslationBundle({}, null, () => 'id');
       spyOn(TranslationBundle, 'load').and.returnValue(transBundle);
       const htmlParser = new HtmlParser();
-      const i18nHtmlParser = new I18NHtmlParser(htmlParser, 'translations');
+      const i18nHtmlParser = new I18NHtmlParser(htmlParser, I18nVersion.V0, 'translations', 'xtb');
 
       expect(TranslationBundle.load).toHaveBeenCalledTimes(1);
 

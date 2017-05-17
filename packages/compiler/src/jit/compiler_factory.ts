@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {COMPILER_OPTIONS, Compiler, CompilerFactory, CompilerOptions, Inject, InjectionToken, MissingTranslationStrategy, Optional, PlatformRef, Provider, ReflectiveInjector, TRANSLATIONS, TRANSLATIONS_FORMAT, Type, ViewEncapsulation, createPlatformFactory, isDevMode, platformCore, ɵConsole as Console} from '@angular/core';
+import {COMPILER_OPTIONS, Compiler, CompilerFactory, CompilerOptions, I18nVersion, Inject, InjectionToken, MissingTranslationStrategy, Optional, PlatformRef, Provider, ReflectiveInjector, TRANSLATIONS, TRANSLATIONS_FORMAT, Type, ViewEncapsulation, createPlatformFactory, isDevMode, platformCore, ɵConsole as Console} from '@angular/core';
 
 import {CompileReflector} from '../compile_reflector';
 import {CompilerConfig} from '../config';
@@ -59,10 +59,11 @@ export const COMPILER_PROVIDERS: Array<any|Type<any>|{[k: string]: any}|any[]> =
   },
   {
     provide: i18n.I18NHtmlParser,
-    useFactory: (parser: HtmlParser, translations: string, format: string, config: CompilerConfig,
-                 console: Console) =>
-                    new i18n.I18NHtmlParser(
-                        parser, translations, format, config.missingTranslation !, console),
+    useFactory:
+        (parser: HtmlParser, translations: string, format: string, config: CompilerConfig,
+         console: Console) =>
+            new i18n.I18NHtmlParser(
+                parser, I18nVersion.V0, translations, format, config.missingTranslation !, console),
     deps: [
       baseHtmlParser,
       [new Optional(), new Inject(TRANSLATIONS)],

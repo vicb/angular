@@ -10,6 +10,8 @@ import {createComponentRef, detectChanges, getHostElement, markDirty, renderComp
 import {NgOnChangesFeature, PublicFeature, defineComponent, defineDirective, definePipe} from './definition';
 import {InjectFlags} from './di';
 import {ComponentDef, ComponentTemplate, ComponentType, DirectiveDef, DirectiveDefFlags, DirectiveType} from './interfaces/definition';
+import {computeTranslation, translateDomTree} from './i18n';
+
 
 export {InjectFlags, QUERY_READ_CONTAINER_REF, QUERY_READ_ELEMENT_REF, QUERY_READ_FROM_NODE, QUERY_READ_TEMPLATE_REF, inject, injectElementRef, injectTemplateRef, injectViewContainerRef} from './di';
 
@@ -58,6 +60,7 @@ export {
 
   text as T,
   textBinding as t,
+  dynamicTextBinding as dtb,
 
   viewStart as V,
   viewEnd as v,
@@ -80,6 +83,11 @@ export {
 } from './query';
 
 // clang-format on
+
+export {
+  computeTranslation,
+  translateDomTree,
+};
 
 export {
   ComponentDef,

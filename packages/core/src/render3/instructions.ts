@@ -852,6 +852,47 @@ export function textBinding<T>(index: number, value: T | NO_CHANGE): void {
   }
 }
 
+/**
+ * TODO(vicb): doc params
+ */
+export function dynamicTextBinding(tokens: string[], txtNodeDefs: {[node: number]: number[]}, values: any[]): void {
+  // TODO(vicb): use a single slot (as in bindV)
+  // TODO(vicb): do not assume that firstBinding = currentView.bindingStartIndex! but do as in bind()
+  // Check all the bindings once at the beginning using always the same order
+  const bindings = values.map(bind);
+  const firstBinding = currentView.bindingStartIndex!;
+
+  Object.keys(txtNodeDefs).forEach((node: any) => {
+    const def: number[] = txtNodeDefs[node];
+    node = Number(node);
+    if (def.length === 1) {
+      // Static text node
+      // Initialize the value only once in creation mode
+      if (creationMode ) {
+        const tokenIdx = def[0];
+        textBinding(node, tokens[tokenIdx]);
+      }
+    }
+
+    for (let i = 1; i < def.length; i+= 2) {
+      const expIdx = def[i];
+      if (bindings[expIdx] !== NO_CHANGE) {
+        // If any of the expression used by the current def has changed, update the text node
+        let content = tokens[def[0]];
+        for (let i = 1; i < def.length; i += 2) {
+          // expresssion
+          const bindingIndex = firstBinding + def[i];
+          content += stringify(data[bindingIndex]);
+          // text
+          const tokenIdx = def[i + 1];
+          content += tokens[tokenIdx];
+        }
+        textBinding(node, content);
+        break;
+      }
+    }
+  });
+}
 
 //////////////////////////
 //// Directive
